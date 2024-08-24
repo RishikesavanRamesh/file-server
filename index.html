@@ -56,31 +56,17 @@
 <body>
     <main>
         <h1 id="path"></h1>
-        <table>
+       <table>
             <tr>
                 <th>Name</th>
                 <th>Last modified</th>
             </tr>
-            {% if current_path != "/" %}
-                <tr>
-                    <td><a class="link" href="{{ current_path | prepend: site.baseurl | append: '/..' }}">..</a></td>
-                    <td></td>
-                </tr>
-            {% endif %}
             {% for res in site.static_files %}
-                {% if res.path contains current_path %}
-                    {% assign res_parts = res.path | split: '/' %}
-                    {% if res_parts[res_parts.size - 1] contains '.' %}
-                        <tr>
-                            <td><a class="link" href="{{ res.path | prepend: site.baseurl }}">{{ res.path | remove: current_path | remove: '/resources/' }}</a></td>
-                            <td>{{ res.modified_time | date: "%-d %b, %Y" }}</td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td><a class="directory" href="{{ res.path | prepend: site.baseurl }}">{{ res.path | remove: current_path | remove: '/resources/' }}</a></td>
-                            <td></td>
-                        </tr>
-                    {% endif %}
+                {% if res.path contains 'files' %}
+                    <tr>
+                        <td><a class="post-link" href="{{ res.path | prepend: site.baseurl }}">{{ res.path | remove:'/files/' }}</a></td>
+                        <td>{{ res.modified_time | date: "%-d %b, %Y" }}</td>
+                    </tr>
                 {% endif %}
             {% endfor %}
         </table>
