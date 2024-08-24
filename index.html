@@ -45,6 +45,12 @@
         .footer-right {
             text-align: right;
         }
+        .directory {
+            font-weight: bold;
+        }
+        .link {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -55,12 +61,26 @@
                 <th>Name</th>
                 <th>Last modified</th>
             </tr>
+            {% if current_path != "/" %}
+                <tr>
+                    <td><a class="link" href="{{ current_path | prepend: site.baseurl | append: '/..' }}">..</a></td>
+                    <td></td>
+                </tr>
+            {% endif %}
             {% for res in site.static_files %}
-                {% if res.path contains 'resources' %}
-                    <tr>
-                        <td><a class="post-link" href="{{ res.path | prepend: site.baseurl }}">{{ res.path | remove:'/resources/' }}</a></td>
-                        <td>{{ res.modified_time | date: "%-d %b, %Y" }}</td>
-                    </tr>
+                {% if res.path contains current_path %}
+                    {% assign res_parts = res.path | split: '/' %}
+                    {% if res_parts[res_parts.size - 1] contains '.' %}
+                        <tr>
+                            <td><a class="link" href="{{ res.path | prepend: site.baseurl }}">{{ res.path | remove: current_path | remove: '/resources/' }}</a></td>
+                            <td>{{ res.modified_time | date: "%-d %b, %Y" }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td><a class="directory" href="{{ res.path | prepend: site.baseurl }}">{{ res.path | remove: current_path | remove: '/resources/' }}</a></td>
+                            <td></td>
+                        </tr>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </table>
