@@ -1,0 +1,11 @@
+[Unit]
+Description= Host Executor Pipe Service
+
+[Service]
+ExecStart=/usr/local/bin/host_executor_loop.sh
+
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
