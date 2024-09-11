@@ -1,0 +1,11 @@
+[Unit]
+Description= Robot Teleop Service
+
+[Service]
+ExecStart=/bin/bash -c ' echo "Starting the robot..." ; cd /home/pi/deploy ; docker compose down ; docker compose up '
+
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
